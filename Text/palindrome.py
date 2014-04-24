@@ -4,9 +4,24 @@ by the user is a palindrome. That is that it reads
 the same forwards as backwards like "racecar"
 """
 
-string = raw_input('Enter a string: ').lower()
+def palindrome1(word):
+    backwards = word[::-1]
+    if word == backwards: return True 
+    else: return False
 
-if string == string[::-1]:
-    print '%s is a palindrome' % string
-else:
-    print '%s is not a palindrome' % string
+
+def palindrome2(word):
+    if len(word) <=3:
+        if word[0] == word[-1]:
+            return True
+        else:
+            return False
+    else:
+        return palindrome2(word[1:-1])
+        
+if __name__ == '__main__':
+    print palindrome1('racecar')
+    print palindrome1('nintendo')
+    
+    print palindrome2('racecar')
+    print palindrome2('nintendo')
