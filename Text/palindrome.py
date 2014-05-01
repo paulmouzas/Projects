@@ -18,10 +18,17 @@ def palindrome2(word):
             return False
     else:
         return palindrome2(word[1:-1])
-        
-if __name__ == '__main__':
-    print palindrome1('racecar')
-    print palindrome1('nintendo')
+def test(got, expected):
+    if got == expected:
+        prefix = ' OK '
+    else:
+        prefix = '  X '
+    print '%s got: %s expected: %s' % (prefix, repr(got), repr(expected))
     
-    print palindrome2('racecar')
-    print palindrome2('nintendo')
+if __name__ == '__main__':
+    test(palindrome1('racecar'), True)
+    test( palindrome1('nintendo'), False)
+    
+    test(palindrome2('racecar'), True)
+    test(palindrome2('nintendo'), False)
+
