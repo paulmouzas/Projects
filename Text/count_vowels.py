@@ -1,4 +1,3 @@
-from pprint import pprint
 vowels = "aeiou"
 sentence = "here is a sentence with a bunch of vowels"
 
