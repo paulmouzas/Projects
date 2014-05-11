@@ -28,19 +28,15 @@ def help():
     print "help\t\tPrints this list of commands." 
     print "quit\t\tQuits program."
     print "\n\n"
+    
 def main():
     url = raw_input("Please enter a url.")
     user = raw_input("Enter your username: ")
     pswd = raw_input("Enter your password: ")
     ftp = ftplib.FTP(url, user, pswd)
     help()
-if __name__ == '__main__':
-
-    main()
-
     
     while True:
-        
         query = raw_input("What would you like to do? >").split()
         if len(query) == 1:
             command = query[0]
@@ -51,6 +47,8 @@ if __name__ == '__main__':
                 break
             elif command == 'help':
                 help()
+            else:
+                print "Sorry. I didn't get that."
         elif len(query) == 2:
             command, arg = query
             if command == 'get':
@@ -59,6 +57,7 @@ if __name__ == '__main__':
                 cd(ftp, arg)
             elif command == 'upload':
                 upload(ftp, arg)
-                
-        else:
-            print "I'm sorry. I didn't understand."
+            else:
+                print "Sorry. Invalid command."
+if __name__ == '__main__':
+    main()
