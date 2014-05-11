@@ -2,8 +2,12 @@ import ftplib
 
 def getFile(ftp, filename):
     f = open(filename, 'wb')
-    ftp.retrbinary('RETR ' + filename, f.write)
+    ftp.retrlines('RETR ' + filename, f.write)
     f.close
+
+def upload(ftp, filename):
+    ftp.storlines("STOR " + filename, open(filename, 'r'))
+    listDir(ftp)
     
 def listDir(ftp):
     files = ftp.nlst()
@@ -11,32 +15,29 @@ def listDir(ftp):
         print f
     return
     
+def cd(ftp, pathname):
+    ftp.cwd(pathname)
+    listDir(ftp)
+
 def help():
     print "\n\n"
-    print "*"*10 + " COMMANDS " + "*"*10
-    print "get\tDownloads a file"
-    print "ls\t\tLists contents of directory"
-    print "cd\t\tChanges directories"
-    print "up\t\tBrings you up one directory"
-    print "help\t\tHelp" 
-    print "quit\t\tQuits program"
+    print "*" * 10 + " COMMANDS " + "*" * 10
+    print "get\t\tDownloads a file."
+    print "ls\t\tLists contents of directory."
+    print "cd\t\tChanges directories. Type out the full path."
+    print "help\t\tPrints this list of commands." 
+    print "quit\t\tQuits program."
     print "\n\n"
-
-commands = {
-    'ls':listDir,
-    'help':help
-    }
-    
-if __name__ == '__main__':
-    #url = raw_input("Please enter a url.")
-    #user = raw_input("Enter your username: ")
-    #pswd = raw_input("Enter your password: ")
-    
-    url = "paulmouzas.com"
-    user = "paulm7224"
-    pswd = "luap,mo86"
+def main():
+    url = raw_input("Please enter a url.")
+    user = raw_input("Enter your username: ")
+    pswd = raw_input("Enter your password: ")
     ftp = ftplib.FTP(url, user, pswd)
     help()
+if __name__ == '__main__':
+
+    main()
+
     
     while True:
         
@@ -46,8 +47,18 @@ if __name__ == '__main__':
             if command == 'ls':
                 listDir(ftp)
             elif command == 'quit':
+                print "Bye!"
                 break
-        else:
+            elif command == 'help':
+                help()
+        elif len(query) == 2:
             command, arg = query
             if command == 'get':
                 getFile(ftp, arg)
+            elif command == 'cd':
+                cd(ftp, arg)
+            elif command == 'upload':
+                upload(ftp, arg)
+                
+        else:
+            print "I'm sorry. I didn't understand."
