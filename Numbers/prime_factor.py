@@ -12,5 +12,4 @@ def isPrime(n):
 def primeFactors(n):
     return [x for x in range(3,n) if isPrime(x)==True and isFactor(x,n)==True]
     
-print primeFactors(129)
     
